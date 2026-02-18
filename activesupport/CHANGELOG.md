@@ -1,3 +1,42 @@
+*   Introduce `this_week?`, `this_month?`, and `this_year?` methods to Date/Time
+
+    Similar to `today?`, `tomorrow?`, and `yesterday?`, these methods are useful to
+    query time instances against the current period.
+
+    ```ruby
+    unless post.created_at.this_week?
+      link_to "See week recap", week_recap_path(date)
+    end
+    ```
+
+    *Matheus Richard*
+
+*   Removed the deprecated `ActiveSupport::Multibyte::Chars` class.
+
+    As well as `String#mb_chars`
+
+    *Jean Boussier*
+
+*   Changed `ActiveSupport::EventReporter#subscribe` to only provide the event name during filtering.
+
+    Otherwise the event reporter would need to always build the expensive payload even when there is
+    no active subscriber, which is very wasteful.
+
+    *Jean Boussier*
+
+*   Fix inflections to better handle overlapping acronyms.
+
+    ```ruby
+    ActiveSupport::Inflector.inflections(:en) do |inflect|
+      inflect.acronym "USD"
+      inflect.acronym "USDC"
+    end
+
+    "USDC".underscore # => "usdc"
+    ```
+
+    *Said Kaldybaev*
+
 *   Add `ActiveSupport::CombinedConfiguration` to offer interchangeable access to configuration provided by
     either ENV or encrypted credentials. Used by Rails to first look at ENV, then look in encrypted credentials,
     but can be configured separately with any number of API-compatible backends in a first-look order.
